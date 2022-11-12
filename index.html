@@ -60,10 +60,10 @@
 
       window.onload = async () => {
         setCount(0);
-        await init();
+        await getQuizzes();
       };
 
-      async function init() {
+      async function getQuizzes() {
         const response = await fetch("https://localhost:7034/");
         console.log(response);
         const data = await response.text();
