@@ -17,21 +17,37 @@ class Home {
     this.getQuizzesBtn.addEventListener("click", () => this.getQuizzes());
   }
 
-  getQuizzes() {
-    const response = fetch("https://localhost:7034/home/indexJson")
-      .then((response) => {
-        console.log(response);
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
+  // getQuizzes() {
+  //   fetch("https://localhost:7034/home/indexJson")
+  //     .then((response) => {
+  //       console.log(response);
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //     });
+  // }
+
+  async getQuizzes() {
+    const response = await fetch("https://localhost:7034/home/indexJson");
+    const quizzes = await response.json();
+    this.setTableContent(quizzes);
   }
 
-  // async getQuizzes() {
-  //   const response = await fetch("https://localhost:7034/home/indexJson");
-  //   const data = await response.json();
-  // }
+  setTableContent(quizzes) {
+    const table = document.getElementById("indexTable");
+    const tableBody = table.querySelector("tbody");
+
+    for (let i = 0; i < quizzes.length; i++) {
+      const html = `<tr>
+        <th>${i + 1}</th>
+        <td>${quizzes[i].name}</td>
+        <td>${quizzes[i].description}</td>
+        <td>${quizzes[i].createdAt}</td>
+      </tr>`;
+      tableBody.insertAdjacentHTML("beforeend", html);
+    }
+  }
 
   setCount() {
     const count = document.getElementById("count");
